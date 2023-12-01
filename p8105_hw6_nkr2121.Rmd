@@ -26,6 +26,7 @@ weather_df =
   select(name, id, everything())
 ```
 
+Bootstrap sample 
 ```{r message=FALSE, cache=TRUE, warning=FALSE}
 set.seed(100)
 
@@ -49,4 +50,19 @@ results =
   pivot_wider(names_from = term, values_from = estimate) |> 
   mutate(log_b_product = log(tmin * abs(prcp)))
 ```
+
+Plotting
+```{r}
+results |> 
+  ggplot(aes(x = r.squared)) + 
+  geom_density() +
+  theme_bw()
+
+results |> 
+  ggplot(aes(x = log_b_product)) + 
+  geom_density() +
+  theme_bw()
+```
+
+The distribution of r-squared values seems to be slightly left skewed with a peak around 0.91. The distribution of log_b_product is very left skewed, with steep peak around -5 (also, for reference, I used the absolute value of prcp when calculating the log product due to missing values otherwise).
 
