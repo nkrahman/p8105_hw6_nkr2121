@@ -26,3 +26,27 @@ weather_df =
   select(name, id, everything())
 ```
 
+```{r message=FALSE, cache=TRUE, warning=FALSE}
+set.seed(100)
+
+sample = function(df) {
+  sample_frac(df, replace = TRUE)
+}
+
+boot_sample = tibble(num = 1:5000) |> 
+  mutate(
+    sample = map(num, \(i) sample(weather_df))
+  )
+
+results =   
+  boot_sample |> 
+  mutate(
+    models = map(sample, \(df) lm(tmax ~ tmin + prcp, data = df)),
+    lm = map(models, broom::tidy),
+    glance = map(models, broom::glance)) |> 
+  unnest(lm, glance) |> 
+  select(num, term, estimate, r.squared) |> 
+  pivot_wider(names_from = term, values_from = estimate) |> 
+  mutate(log_b_product = log(tmin * abs(prcp)))
+```
+
