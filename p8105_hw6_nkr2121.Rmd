@@ -66,3 +66,17 @@ results |>
 
 The distribution of r-squared values seems to be slightly left skewed with a peak around 0.91. The distribution of log_b_product is very left skewed, with steep peak around -5 (also, for reference, I used the absolute value of prcp when calculating the log product due to missing values otherwise).
 
+95% Confidence Intervals
+```{r}
+ci_rsquared = results |> 
+  pull(r.squared) |> 
+  quantile(c(0.025, 0.975), na.rm = TRUE)
+ci_rsquared
+
+ci_log_b_product = results |> 
+  pull(log_b_product) |> 
+  quantile(c(0.025, 0.975), na.rm = TRUE)
+ci_log_b_product
+```
+
+# Question 3
