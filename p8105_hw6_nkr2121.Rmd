@@ -90,6 +90,8 @@ Cleaning the data
 ```{r}
 vars = c('babysex', 'frace', 'malform', 'mrace')
 birthweight[vars] <- lapply(birthweight[vars], factor)
+
+birthweight = birthweight |> drop_na()
 ```
 
 For my model, I hypothesize that gestational age (gaweeks), family income (fincome), presence of malformations that could affect weight (malform), mother's pre-pregnancy BMI (ppbmi), and average number of cigarettes smoked per day during pregnancy (smoken) could influence birthweight. This hypothesis is informed from my previous research at a national child health center.
@@ -99,4 +101,20 @@ Creating my model
 model1 = lm(bwt ~ gaweeks + fincome + malform + ppbmi + smoken, data = birthweight)
 summary(model1)
 ```
+
+malform was found to be insignificant, so I will remake the model without that variable. 
+```{r}
+model2 = lm(bwt ~ gaweeks + fincome + ppbmi + smoken, data = birthweight)
+summary(model2)
+```
+
+Creating the models for comparison
+```{r}
+model3 = lm(bwt ~ blength + gaweeks, data = birthweight)
+summary(model3)
+
+model4 = lm(bwt ~ bhead * blength * babysex, data = birthweight)
+summary(model4)
+```
+
 
