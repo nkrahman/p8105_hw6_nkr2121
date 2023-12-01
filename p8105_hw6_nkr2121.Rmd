@@ -92,3 +92,11 @@ vars = c('babysex', 'frace', 'malform', 'mrace')
 birthweight[vars] <- lapply(birthweight[vars], factor)
 ```
 
+For my model, I hypothesize that gestational age (gaweeks), family income (fincome), presence of malformations that could affect weight (malform), mother's pre-pregnancy BMI (ppbmi), and average number of cigarettes smoked per day during pregnancy (smoken) could influence birthweight. This hypothesis is informed from my previous research at a national child health center.
+
+Creating my model
+```{r}
+model1 = lm(bwt ~ gaweeks + fincome + malform + ppbmi + smoken, data = birthweight)
+summary(model1)
+```
+
