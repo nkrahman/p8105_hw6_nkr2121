@@ -80,3 +80,15 @@ ci_log_b_product
 ```
 
 # Question 3
+
+Reading in the data
+```{r, message=FALSE}
+birthweight <- read_csv("birthweight.csv")
+```
+
+Cleaning the data
+```{r}
+vars = c('babysex', 'frace', 'malform', 'mrace')
+birthweight[vars] <- lapply(birthweight[vars], factor)
+```
+
